@@ -168,8 +168,8 @@ if(ENABLE_CUDA)
 endif()
 
 configure_file(
-  "${CMAKE_CURRENT_LIST_DIR}/src/version.h.in"
-  "${CMAKE_CURRENT_LIST_DIR}/src/version.h"
+  "${CMAKE_CURRENT_LIST_DIR}/include/version.h.in"
+  "${CMAKE_CURRENT_LIST_DIR}/include/version.h"
 )
 
 #look for all *.h files in src folder

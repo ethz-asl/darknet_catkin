@@ -852,12 +852,12 @@ int is_network(section *s)
             || strcmp(s->type, "[network]")==0);
 }
 
-network parse_network_cfg(char *filename)
+network parse_network_cfg(const char *filename)
 {
     return parse_network_cfg_custom(filename, 0, 0);
 }
 
-network parse_network_cfg_custom(char *filename, int batch, int time_steps)
+network parse_network_cfg_custom(const char *filename, int batch, int time_steps)
 {
     list *sections = read_cfg(filename);
     node *n = sections->front;
@@ -1397,7 +1397,7 @@ void load_convolutional_weights(layer l, FILE *fp)
 }
 
 
-void load_weights_upto(network *net, char *filename, int cutoff)
+void load_weights_upto(network *net, const char *filename, int cutoff)
 {
 #ifdef GPU
     if(net->gpu_index >= 0){
@@ -1502,33 +1502,7 @@ void load_weights_upto(network *net, char *filename, int cutoff)
     fclose(fp);
 }
 
-void load_weights(network *net, char *filename)
+void load_weights(network *net, const char *filename)
 {
     load_weights_upto(net, filename, net->n);
-}
-
-// load network & force - set batch size
-network *load_network_custom(char *cfg, char *weights, int clear, int batch)
-{
-    printf(" Try to load cfg: %s, weights: %s, clear = %d \n", cfg, weights, clear);
-    network* net = (network*)calloc(1, sizeof(network));
-    *net = parse_network_cfg_custom(cfg, batch, 0);
-    if (weights && weights[0] != 0) {
-        load_weights(net, weights);
-    }
-    if (clear) (*net->seen) = 0;
-    return net;
-}
-
-// load network & get batch size from cfg-file
-network *load_network(char *cfg, char *weights, int clear)
-{
-    printf(" Try to load cfg: %s, weights: %s, clear = %d \n", cfg, weights, clear);
-    network* net = (network*)calloc(1, sizeof(network));
-    *net = parse_network_cfg(cfg);
-    if (weights && weights[0] != 0) {
-        load_weights(net, weights);
-    }
-    if (clear) (*net->seen) = 0;
-    return net;
 }
