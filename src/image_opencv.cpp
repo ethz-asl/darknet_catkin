@@ -76,7 +76,7 @@ using std::endl;
 #define CV_AA cv::LINE_AA
 #endif
 
-extern "C" {
+namespace darknet {
 
     struct mat_cv : cv::Mat { int a[0]; };
     struct cap_cv : cv::VideoCapture { int a[0]; };
@@ -1309,11 +1309,12 @@ void show_acnhors(int number_of_boxes, int num_of_clusters, float *rel_width_hei
     cv::destroyAllWindows();
 }
 
-}   // extern "C"
-
+}
 
 #else  // OPENCV
+namespace darknet {
 int wait_key_cv(int delay) { return 0; }
 int wait_until_press_key_cv() { return 0; }
 void destroy_all_windows_cv() {}
+}
 #endif // OPENCV

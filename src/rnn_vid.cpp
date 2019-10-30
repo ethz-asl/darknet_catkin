@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "blas.h"
 
+namespace darknet {
 #ifdef OPENCV
 void reconstruct_picture(network net, float *features, image recon, image update, float rate, float momentum, float lambda, int smooth_size, int iters);
 
@@ -206,3 +207,4 @@ void run_vid_rnn(int argc, char **argv)
 #else
 void run_vid_rnn(int argc, char **argv){}
 #endif
+}

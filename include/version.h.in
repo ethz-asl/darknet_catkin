@@ -1,3 +1,6 @@
+#ifndef VERSION_H
+#define VERSION_H
 #define MAJOR_VERSION @Darknet_MAJOR_VERSION@
 #define MINOR_VERSION @Darknet_MINOR_VERSION@
 #define PATCH_VERSION @Darknet_PATCH_VERSION@
+#endif

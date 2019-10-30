@@ -204,7 +204,9 @@ if(BUILD_AS_CPP)
   set_target_properties(dark PROPERTIES LINKER_LANGUAGE CXX)
 endif()
 
-target_include_directories(dark PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include> $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src> $<INSTALL_INTERFACE:${DARKNET_INSTALL_INCLUDE_DIR}> $<BUILD_INTERFACE:${Stb_INCLUDE_DIR}>)
+target_include_directories(dark PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+    $<BUILD_INTERFACE:${Stb_INCLUDE_DIR}>)
 target_compile_definitions(dark PRIVATE -DUSE_CMAKE_LIBS)
 
 if(CUDNN_FOUND)
@@ -218,6 +220,7 @@ endif()
 if(OpenCV_FOUND)
   target_link_libraries(dark ${OpenCV_LINKED_COMPONENTS})
   target_include_directories(dark PUBLIC ${OpenCV_INCLUDE_DIRS})
+  target_compile_definitions(dark PUBLIC -DOPENCV)
 endif()
 
 if(OPENMP_FOUND)
