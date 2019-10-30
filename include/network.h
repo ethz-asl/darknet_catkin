@@ -1,6 +1,8 @@
 // Oh boy, why am I about to do this....
 #ifndef NETWORK_H
 #define NETWORK_H
+
+#include "options.h"
 #include "darknet.h"
 
 #include <stdint.h>

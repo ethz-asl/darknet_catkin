@@ -1,6 +1,7 @@
 #ifndef CROP_LAYER_H
 #define CROP_LAYER_H
 
+#include "options.h"
 #include "image.h"
 #include "layer.h"
 #include "network.h"

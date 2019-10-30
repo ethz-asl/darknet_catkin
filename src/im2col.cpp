@@ -1,5 +1,7 @@
-#include "im2col.h"
 #include <stdio.h>
+#include "im2col.h"
+
+namespace darknet {
 float im2col_get_pixel(float *im, int height, int width, int channels,
                         int row, int col, int channel, int pad)
 {
@@ -90,4 +92,5 @@ void im2col_cpu_ext(const float* data_im, const int channels,
             }
         }
     }
+}
 }

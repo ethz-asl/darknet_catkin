@@ -17,6 +17,17 @@
 using std::cerr;
 using std::endl;
 
+#ifdef OPENCV
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/highgui/highgui_c.h>
+#include <opencv2/imgproc/imgproc_c.h>
+#ifndef CV_VERSION_EPOCH
+#include <opencv2/videoio/videoio.hpp>
+#endif
+using namespace cv;
+#endif
+
 //
 // socket related abstractions:
 //
@@ -304,17 +315,6 @@ void send_json(detection *dets, int nboxes, int classes, char **names, long long
 
 
 #ifdef OPENCV
-
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/highgui/highgui_c.h>
-#include <opencv2/imgproc/imgproc_c.h>
-#ifndef CV_VERSION_EPOCH
-#include <opencv2/videoio/videoio.hpp>
-#endif
-using namespace cv;
-
-
 
 class MJPG_sender
 {

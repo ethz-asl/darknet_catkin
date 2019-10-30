@@ -1,6 +1,7 @@
 #ifndef BOX_H
 #define BOX_H
 
+#include "options.h"
 #include "darknet.h"
 
 //typedef struct{

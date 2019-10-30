@@ -1,8 +1,6 @@
-int gpu_index = 0;
+#include "dark_cuda.h"
 
 #ifdef GPU
-
-#include "dark_cuda.h"
 #include "utils.h"
 #include "blas.h"
 #include "assert.h"
@@ -24,6 +22,8 @@ int gpu_index = 0;
 #endif
 
 namespace darknet {
+int gpu_index = 0;
+
 void cuda_set_device(int n)
 {
     gpu_index = n;

@@ -1,8 +1,13 @@
 #ifndef IMAGE_OPENCV_H
 #define IMAGE_OPENCV_H
 
+#include "options.h"
 #include "image.h"
 #include "matrix.h"
+
+#ifdef OPENCV
+#include <opencv2/opencv.hpp>
+#endif
 
 namespace darknet {
 #ifdef OPENCV
@@ -35,7 +40,7 @@ void release_mat(mat_cv **mat);
 // cv::Mat ipl_to_mat(IplImage *ipl)
 // IplImage *mat_to_ipl(cv::Mat mat)
 // Mat image_to_mat(image img)
-// image mat_to_image(cv::Mat mat)
+image mat_to_image(cv::Mat mat);
 image mat_to_image_cv(mat_cv *mat);
 
 // Window
@@ -80,6 +85,9 @@ image get_image_from_stream_letterbox(cap_cv *cap, int w, int h, int c, mat_cv**
 // Image Saving
 void save_cv_png(mat_cv *img, const char *name);
 void save_cv_jpg(mat_cv *img, const char *name);
+// Internal, do not use
+void save_mat_png(cv::Mat img_src, const char *name);
+void save_mat_jpg(cv::Mat img_src, const char *name);
 
 // Draw Detection
 void draw_detections_cv_v3(mat_cv* show_img, detection *dets, int num, float thresh, char **names, image **alphabet, int classes, int ext_output);

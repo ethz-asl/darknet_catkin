@@ -1,5 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
+
+#include "options.h"
 #include "darknet.h"
 #include "list.h"
 

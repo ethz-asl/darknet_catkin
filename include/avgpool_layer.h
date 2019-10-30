@@ -1,6 +1,7 @@
 #ifndef AVGPOOL_LAYER_H
 #define AVGPOOL_LAYER_H
 
+#include "options.h"
 #include "image.h"
 #include "dark_cuda.h"
 #include "layer.h"

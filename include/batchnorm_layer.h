@@ -1,6 +1,7 @@
 #ifndef BATCHNORM_LAYER_H
 #define BATCHNORM_LAYER_H
 
+#include "options.h"
 #include "image.h"
 #include "layer.h"
 #include "network.h"

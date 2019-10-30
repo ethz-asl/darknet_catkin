@@ -1,7 +1,7 @@
-
 #ifndef GRU_LAYER_H
 #define GRU_LAYER_H
 
+#include "options.h"
 #include "activations.h"
 #include "layer.h"
 #include "network.h"

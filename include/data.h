@@ -2,6 +2,7 @@
 #define DATA_H
 #include <pthread.h>
 
+#include "options.h"
 #include "darknet.h"
 #include "darknet.h"
 #include "matrix.h"

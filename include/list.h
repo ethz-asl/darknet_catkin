@@ -1,6 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include "options.h"
+
 namespace darknet {
 typedef struct node{
     void *val;

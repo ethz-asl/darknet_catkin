@@ -1,5 +1,7 @@
 #ifndef GEMM_H
 #define GEMM_H
+
+#include "options.h"
 #include "activations.h"
 #include <stdint.h>
 #include <stddef.h>

@@ -1,5 +1,7 @@
 #ifndef ROUTE_LAYER_H
 #define ROUTE_LAYER_H
+
+#include "options.h"
 #include "network.h"
 #include "layer.h"
 

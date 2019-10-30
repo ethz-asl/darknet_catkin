@@ -1,6 +1,7 @@
 #ifndef REGION_LAYER_H
 #define REGION_LAYER_H
 
+#include "options.h"
 #include "layer.h"
 #include "network.h"
 

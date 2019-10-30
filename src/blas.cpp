@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+namespace darknet {
 void reorg_cpu(float *x, int out_w, int out_h, int out_c, int batch, int stride, int forward, float *out)
 {
     int b,i,j,k;
@@ -358,4 +360,5 @@ void fix_nan_and_inf_cpu(float *input, size_t size)
         if (isnan(val) || isinf(val))
             input[i] = 1.0f / i;  // pseudo random value
     }
+}
 }

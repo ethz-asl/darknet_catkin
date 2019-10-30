@@ -1,5 +1,7 @@
 #ifndef HTTP_STREAM_H
 #define HTTP_STREAM_H
+
+#include "options.h"
 #include "darknet.h"
 
 #include "image.h"

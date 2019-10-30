@@ -1,5 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
+
+#include "options.h"
 #include "network.h"
 
 namespace darknet {

@@ -1,6 +1,8 @@
 #ifndef COL2IM_H
 #define COL2IM_H
 
+#include "options.h"
+
 namespace darknet {
 void col2im_cpu(float* data_col,
         int channels, int height, int width,

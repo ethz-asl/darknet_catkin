@@ -1,6 +1,8 @@
 #ifndef BLAS_H
 #define BLAS_H
+
 #include <stdlib.h>
+#include "options.h"
 #include "darknet.h"
 
 #ifdef GPU

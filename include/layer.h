@@ -1,6 +1,7 @@
 #ifndef BASE_LAYER_H
 #define BASE_LAYER_H
 
+#include "options.h"
 #include "activations.h"
 #include "stddef.h"
 #include "tree.h"

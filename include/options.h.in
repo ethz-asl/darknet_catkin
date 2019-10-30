@@ -1,0 +1,8 @@
+#ifndef OPTIONS_H
+#define OPTIONS_H
+#define USE_CMAKE_LIBS
+#cmakedefine GPU
+#cmakedefine CUDNN
+#cmakedefine CUDNN_HALF
+#cmakedefine OPENCV
+#endif

@@ -1,5 +1,7 @@
 #ifndef COST_LAYER_H
 #define COST_LAYER_H
+
+#include "options.h"
 #include "layer.h"
 #include "network.h"
 

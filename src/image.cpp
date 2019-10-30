@@ -17,10 +17,11 @@
 #include "stb_image_write.h"
 #endif
 
-extern int check_mistakes;
 //int windows = 0;
 
 namespace darknet {
+extern int check_mistakes;
+
 float colors[6][3] = { {1,0,1}, {0,0,1},{0,1,1},{0,1,0},{1,1,0},{1,0,0} };
 
 float get_color(int c, int x, int max)
@@ -671,6 +672,21 @@ void show_image(image p, const char *name)
     save_image(p, name);
 #endif  // OPENCV
 }
+
+#ifdef OPENCV
+void save_mat_png(cv::Mat img_src, const char *name)
+{
+    cv::Mat img_rgb;
+    if (img_src.channels() >= 3) cv::cvtColor(img_src, img_rgb, cv::COLOR_RGB2BGR);
+    stbi_write_png(name, img_rgb.cols, img_rgb.rows, 3, (char *)img_rgb.data, 0);
+}
+void save_mat_jpg(cv::Mat img_src, const char *name)
+{
+    cv::Mat img_rgb;
+    if (img_src.channels() >= 3) cv::cvtColor(img_src, img_rgb, cv::COLOR_RGB2BGR);
+    stbi_write_jpg(name, img_rgb.cols, img_rgb.rows, 3, (char *)img_rgb.data, 80);
+}
+#endif  // OPENCV
 
 void save_image_png(image im, const char *name)
 {

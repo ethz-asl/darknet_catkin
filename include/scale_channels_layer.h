@@ -1,6 +1,7 @@
 #ifndef SCALE_CHANNELS_LAYER_H
 #define SCALE_CHANNELS_LAYER_H
 
+#include "options.h"
 #include "layer.h"
 #include "network.h"
 

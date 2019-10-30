@@ -1,5 +1,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
+
+#include "options.h"
 #include "darknet.h"
 
 //typedef struct matrix{

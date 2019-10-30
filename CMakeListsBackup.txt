@@ -152,6 +152,13 @@ if(ENABLE_CUDA)
 endif()
 
 if(ENABLE_CUDA)
+  set(ADDITIONAL_CXX_FLAGS "${ADDITIONAL_CXX_FLAGS} -DGPU")
+  if(CUDNN_FOUND)
+    set(ADDITIONAL_CXX_FLAGS "${ADDITIONAL_CXX_FLAGS} -DCUDNN")
+  endif()
+  if(OpenCV_FOUND)
+    set(ADDITIONAL_CXX_FLAGS "${ADDITIONAL_CXX_FLAGS} -DOPENCV")
+  endif()
   set(CUDA_HOST_COMPILER_FLAGS "--compiler-options \" ${ADDITIONAL_CXX_FLAGS} -fPIC -fopenmp -Ofast \"")
 
   string (REPLACE ";" " " CUDA_ARCH_FLAGS_SPACE_SEPARATED "${CUDA_ARCH_FLAGS}")
@@ -241,4 +248,4 @@ configure_file(
 )
 
 cs_install()
-cs_export(INCLUDE_DIRS include ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+cs_export(INCLUDE_DIRS include)

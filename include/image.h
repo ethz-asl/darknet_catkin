@@ -1,5 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
+
+#include "options.h"
 #include "darknet.h"
 
 #include <stdlib.h>

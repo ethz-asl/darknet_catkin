@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include "options.h"
 #include "darknet.h"
 
 namespace darknet {

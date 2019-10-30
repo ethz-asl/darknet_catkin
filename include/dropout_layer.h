@@ -1,6 +1,7 @@
 #ifndef DROPOUT_LAYER_H
 #define DROPOUT_LAYER_H
 
+#include "options.h"
 #include "layer.h"
 #include "network.h"
 

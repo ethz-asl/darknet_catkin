@@ -1,5 +1,7 @@
 #ifndef ACTIVATIONS_H
 #define ACTIVATIONS_H
+
+#include "options.h"
 #include "darknet.h"
 #include "dark_cuda.h"
 #include "math.h"

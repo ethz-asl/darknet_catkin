@@ -1,5 +1,7 @@
 #ifndef DARKCUDA_H
 #define DARKCUDA_H
+
+#include "options.h"
 #include "darknet.h"
 
 extern int gpu_index;
