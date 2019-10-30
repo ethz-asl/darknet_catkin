@@ -7,14 +7,11 @@
 //    float **vals;
 //} matrix;
 
+namespace darknet {
 typedef struct {
     int *assignments;
     matrix centers;
 } model;
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 model do_kmeans(matrix data, int k);
 matrix make_matrix(int rows, int cols);
@@ -30,8 +27,6 @@ void scale_matrix(matrix m, float scale);
 matrix resize_matrix(matrix m, int size);
 
 float *pop_column(matrix *m, int c);
+} // namespace darknet
 
-#ifdef __cplusplus
-}
-#endif
 #endif

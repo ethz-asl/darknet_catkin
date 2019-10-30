@@ -5,9 +5,7 @@
 #include <stdint.h>
 #include "darknet.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace darknet {
 void im2col_cpu(float* data_im,
         int channels, int height, int width,
         int ksize, int stride, int pad, float* data_col);
@@ -82,7 +80,6 @@ void convolve_bin_gpu(float *input, float *weights, float *output, int in_w, int
 //void convolve_cpu(float *input, float *weights, float *output, int in_w, int in_h, int in_c, int n, int size, int pad);
 
 #endif
-#ifdef __cplusplus
-}
-#endif
+} // namespace darknet
+
 #endif

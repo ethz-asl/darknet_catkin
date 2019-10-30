@@ -3,15 +3,12 @@
 #include "darknet.h"
 #include "list.h"
 
+namespace darknet {
 typedef struct{
     char *key;
     char *val;
     int used;
 } kvp;
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 list *read_data_cfg(char *filename);
 int read_option(char *s, list *options);
@@ -30,9 +27,7 @@ void option_unused(list *l);
 //	char **names;
 //} metadata;
 
-//LIB_API metadata get_metadata(char *file);
+//metadata get_metadata(char *file);
+} // namespace darknet
 
-#ifdef __cplusplus
-}
-#endif
 #endif

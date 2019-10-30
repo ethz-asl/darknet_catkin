@@ -7,6 +7,7 @@
 #include "dark_cuda.h"
 #include "image.h"
 
+namespace darknet {
 __device__ float get_pixel_kernel(float *image, int w, int h, int x, int y, int c)
 {
     if(x < 0 || x >= w || y < 0 || y >= h) return 0;
@@ -178,7 +179,7 @@ __global__ void forward_crop_layer_kernel(float *input, float *rand, int size, i
     output[count] = bilinear_interpolate_kernel(input, w, h, rx, ry, k);
 }
 
-extern "C" void forward_crop_layer_gpu(crop_layer layer, network_state state)
+void forward_crop_layer_gpu(crop_layer layer, network_state state)
 {
     cuda_random(layer.rand_gpu, layer.batch*8);
 
@@ -190,7 +191,6 @@ extern "C" void forward_crop_layer_gpu(crop_layer layer, network_state state)
         scale = 1;
         translate = 0;
     }
-
     int size = layer.batch * layer.w * layer.h;
 
     levels_image_kernel<<<cuda_gridsize(size), BLOCK, 0, get_cuda_stream() >>>(state.input, layer.rand_gpu, layer.batch, layer.w, layer.h, state.train, layer.saturation, layer.exposure, translate, scale, layer.shift);
@@ -220,3 +220,4 @@ extern "C" void forward_crop_layer_gpu(crop_layer layer, network_state state)
        cvWaitKey(0);
        */
 }
+} // namespace darknet

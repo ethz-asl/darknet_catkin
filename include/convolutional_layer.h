@@ -7,11 +7,9 @@
 #include "layer.h"
 #include "network.h"
 
+namespace darknet {
 typedef layer convolutional_layer;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 #ifdef GPU
 void forward_convolutional_layer_gpu(convolutional_layer layer, network_state state);
 void backward_convolutional_layer_gpu(convolutional_layer layer, network_state state);
@@ -58,9 +56,6 @@ void rescale_weights(convolutional_layer l, float scale, float trans);
 void rgbgr_weights(convolutional_layer l);
 void assisted_excitation_forward(convolutional_layer l, network_state state);
 void assisted_excitation_forward_gpu(convolutional_layer l, network_state state);
-
-#ifdef __cplusplus
-}
-#endif
+} // namespace darknet
 
 #endif

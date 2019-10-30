@@ -3,11 +3,9 @@
 #include "network.h"
 #include "layer.h"
 
+namespace darknet {
 typedef layer route_layer;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 route_layer make_route_layer(int batch, int n, int *input_layers, int *input_size);
 void forward_route_layer(const route_layer l, network_state state);
 void backward_route_layer(const route_layer l, network_state state);
@@ -17,8 +15,6 @@ void resize_route_layer(route_layer *l, network *net);
 void forward_route_layer_gpu(const route_layer l, network_state state);
 void backward_route_layer_gpu(const route_layer l, network_state state);
 #endif
+} // namespace darknet
 
-#ifdef __cplusplus
-}
-#endif
 #endif

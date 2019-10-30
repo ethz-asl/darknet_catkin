@@ -7,6 +7,7 @@
 #include "blas.h"
 #include "dark_cuda.h"
 
+namespace darknet {
 __global__ void forward_maxpool_depth_layer_kernel(int n, int w, int h, int c, int out_c, int batch, float *input, float *output, int *indexes)
 {
     int id = (blockIdx.x + blockIdx.y*gridDim.x) * blockDim.x + threadIdx.x;
@@ -129,7 +130,7 @@ __global__ void backward_maxpool_layer_kernel(int n, int in_h, int in_w, int in_
     prev_delta[index] += d;
 }
 
-extern "C" void forward_maxpool_layer_gpu(maxpool_layer layer, network_state state)
+void forward_maxpool_layer_gpu(maxpool_layer layer, network_state state)
 {
     if (layer.maxpool_depth) {
         int h = layer.out_h;
@@ -192,7 +193,7 @@ extern "C" void forward_maxpool_layer_gpu(maxpool_layer layer, network_state sta
     }
 }
 
-extern "C" void backward_maxpool_layer_gpu(maxpool_layer layer, network_state state)
+void backward_maxpool_layer_gpu(maxpool_layer layer, network_state state)
 {
     if (layer.antialiasing) {
         network_state s = { 0 };
@@ -223,3 +224,4 @@ extern "C" void backward_maxpool_layer_gpu(maxpool_layer layer, network_state st
     backward_maxpool_layer_kernel<<<cuda_gridsize(n), BLOCK, 0, get_cuda_stream() >>>(n, layer.h, layer.w, layer.c, layer.stride_x, layer.stride_y, layer.size, layer.pad, layer.delta_gpu, state.delta, layer.indexes_gpu);
     CHECK_CUDA(cudaPeekAtLastError());
 }
+} // namespace darknet

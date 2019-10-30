@@ -5,11 +5,9 @@
 #include "layer.h"
 #include "network.h"
 
+namespace darknet {
 typedef layer connected_layer;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 connected_layer make_connected_layer(int batch, int steps, int inputs, int outputs, ACTIVATION activation, int batch_normalize);
 size_t get_connected_workspace_size(layer l);
 
@@ -26,9 +24,6 @@ void update_connected_layer_gpu(connected_layer layer, int batch, float learning
 void push_connected_layer(connected_layer layer);
 void pull_connected_layer(connected_layer layer);
 #endif
-
-#ifdef __cplusplus
-}
-#endif
+} // namespace darknet
 
 #endif

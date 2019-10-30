@@ -11,7 +11,8 @@
 #include "utils.h"
 #include "dark_cuda.h"
 
-extern "C" void forward_deconvolutional_layer_gpu(deconvolutional_layer layer, network_state state)
+namespace darknet {
+void forward_deconvolutional_layer_gpu(deconvolutional_layer layer, network_state state)
 {
     int i;
     int out_h = deconvolutional_out_height(layer);
@@ -37,7 +38,7 @@ extern "C" void forward_deconvolutional_layer_gpu(deconvolutional_layer layer, n
     activate_array(layer.output_gpu, layer.batch*layer.n*size, layer.activation);
 }
 
-extern "C" void backward_deconvolutional_layer_gpu(deconvolutional_layer layer, network_state state)
+void backward_deconvolutional_layer_gpu(deconvolutional_layer layer, network_state state)
 {
     float alpha = 1./layer.batch;
     int out_h = deconvolutional_out_height(layer);
@@ -77,7 +78,7 @@ extern "C" void backward_deconvolutional_layer_gpu(deconvolutional_layer layer, 
     }
 }
 
-extern "C" void pull_deconvolutional_layer(deconvolutional_layer layer)
+void pull_deconvolutional_layer(deconvolutional_layer layer)
 {
     cuda_pull_array(layer.weights_gpu, layer.weights, layer.c*layer.n*layer.size*layer.size);
     cuda_pull_array(layer.biases_gpu, layer.biases, layer.n);
@@ -85,7 +86,7 @@ extern "C" void pull_deconvolutional_layer(deconvolutional_layer layer)
     cuda_pull_array(layer.bias_updates_gpu, layer.bias_updates, layer.n);
 }
 
-extern "C" void push_deconvolutional_layer(deconvolutional_layer layer)
+void push_deconvolutional_layer(deconvolutional_layer layer)
 {
     cuda_push_array(layer.weights_gpu, layer.weights, layer.c*layer.n*layer.size*layer.size);
     cuda_push_array(layer.biases_gpu, layer.biases, layer.n);
@@ -93,7 +94,7 @@ extern "C" void push_deconvolutional_layer(deconvolutional_layer layer)
     cuda_push_array(layer.bias_updates_gpu, layer.bias_updates, layer.n);
 }
 
-extern "C" void update_deconvolutional_layer_gpu(deconvolutional_layer layer, int skip, float learning_rate, float momentum, float decay)
+void update_deconvolutional_layer_gpu(deconvolutional_layer layer, int skip, float learning_rate, float momentum, float decay)
 {
     int size = layer.size*layer.size*layer.c*layer.n;
 
@@ -104,3 +105,4 @@ extern "C" void update_deconvolutional_layer_gpu(deconvolutional_layer layer, in
     axpy_ongpu(size, learning_rate, layer.weight_updates_gpu, 1, layer.weights_gpu, 1);
     scal_ongpu(size, momentum, layer.weight_updates_gpu, 1);
 }
+} // namespace darknet

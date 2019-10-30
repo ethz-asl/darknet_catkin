@@ -4,10 +4,7 @@
 #include "image.h"
 #include "matrix.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+namespace darknet {
 #ifdef OPENCV
 
 // declaration
@@ -111,9 +108,6 @@ int wait_until_press_key_cv();
 void destroy_all_windows_cv();
 
 #endif  // OPENCV
-
-#ifdef __cplusplus
-}
-#endif
+} // namespace darknet
 
 #endif // IMAGE_OPENCV_H

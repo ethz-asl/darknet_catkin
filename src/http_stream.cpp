@@ -65,6 +65,8 @@ static int close_socket(SOCKET s) {
 #define ADDRPOINTER  unsigned int*
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR   -1
+
+namespace darknet {
 struct _IGNORE_PIPE_SIGNAL
 {
     struct sigaction new_actn, old_actn;
@@ -569,3 +571,7 @@ void stop_timer_and_show() {
 void stop_timer_and_show_name(char *name) { stop_timer_and_show(); }
 void total_time() {}
 #endif // C++11
+
+#ifndef _WIN32
+} // namespace darknet
+#endif

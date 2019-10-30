@@ -6,8 +6,7 @@ catkin_simple(ALL_DEPS_REQUIRED)
 
 option(CMAKE_VERBOSE_MAKEFILE "Create verbose makefile" OFF)
 option(CUDA_VERBOSE_BUILD "Create verbose CUDA build" OFF)
-option(BUILD_SHARED_LIBS "Create dark as a shared library" ON)
-option(BUILD_AS_CPP "Build Darknet using C++ compiler also for C files" OFF)
+option(BUILD_AS_CPP "Build Darknet using C++ compiler also for C files" ON)
 option(BUILD_USELIB_TRACK "Build uselib_track" ON)
 option(MANUALLY_EXPORT_TRACK_OPTFLOW "Manually export the TRACK_OPTFLOW=1 define" OFF)
 option(ENABLE_OPENCV "Enable OpenCV integration" ON)
@@ -180,16 +179,13 @@ list(APPEND headers
 )
 
 #look for all *.c files in src folder
-file(GLOB sources "${CMAKE_CURRENT_LIST_DIR}/src/*.c")
+file(GLOB sources "${CMAKE_CURRENT_LIST_DIR}/src/*.c" "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
+
 #add also .cpp files
-list(APPEND sources
-  ${CMAKE_CURRENT_LIST_DIR}/src/http_stream.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/src/image_opencv.cpp
-)
-#remove darknet.c file which is necessary only for the executable, not for the lib
-list(REMOVE_ITEM sources
-  ${CMAKE_CURRENT_LIST_DIR}/src/darknet.c
-)
+#list(APPEND sources
+#  ${CMAKE_CURRENT_LIST_DIR}/src/http_stream.cpp
+#  ${CMAKE_CURRENT_LIST_DIR}/src/image_opencv.cpp
+#)
 
 if(ENABLE_CUDA)
   file(GLOB cuda_sources "${CMAKE_CURRENT_LIST_DIR}/src/*.cu")
@@ -199,13 +195,10 @@ if(BUILD_AS_CPP)
   set_source_files_properties(${sources} PROPERTIES LANGUAGE CXX)
 endif()
 
-add_library(dark ${CMAKE_CURRENT_LIST_DIR}/include/yolo_v2_class.hpp ${CMAKE_CURRENT_LIST_DIR}/src/yolo_v2_class.cpp ${sources} ${headers} ${cuda_sources})
+cs_add_library(dark ${sources} ${headers} ${cuda_sources})
 set_target_properties(dark PROPERTIES POSITION_INDEPENDENT_CODE ON)
 if(ENABLE_CUDA)
   set_target_properties(dark PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-endif()
-if(BUILD_SHARED_LIBS)
-  target_compile_definitions(dark PRIVATE LIB_EXPORTS=1)
 endif()
 if(BUILD_AS_CPP)
   set_target_properties(dark PROPERTIES LINKER_LANGUAGE CXX)
@@ -215,7 +208,7 @@ target_include_directories(dark PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DI
 target_compile_definitions(dark PRIVATE -DUSE_CMAKE_LIBS)
 
 if(CUDNN_FOUND)
-  target_link_libraries(dark PRIVATE CuDNN::CuDNN)
+  target_link_libraries(dark CuDNN::CuDNN)
   target_compile_definitions(dark PUBLIC -DCUDNN)
   if(ENABLE_CUDNN_HALF)
     target_compile_definitions(dark PUBLIC -DCUDNN_HALF)
@@ -223,30 +216,29 @@ if(CUDNN_FOUND)
 endif()
 
 if(OpenCV_FOUND)
-  target_link_libraries(dark PUBLIC ${OpenCV_LINKED_COMPONENTS})
+  target_link_libraries(dark ${OpenCV_LINKED_COMPONENTS})
   target_include_directories(dark PUBLIC ${OpenCV_INCLUDE_DIRS})
 endif()
 
 if(OPENMP_FOUND)
-  target_link_libraries(dark PUBLIC OpenMP::OpenMP_CXX)
-  target_link_libraries(dark PUBLIC OpenMP::OpenMP_C)
+  target_link_libraries(dark OpenMP::OpenMP_CXX)
+  target_link_libraries(dark OpenMP::OpenMP_C)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCC)
-  target_link_libraries(dark PUBLIC m)
+  target_link_libraries(dark m)
 endif()
 
-target_link_libraries(dark PUBLIC Threads::Threads)
+target_link_libraries(dark Threads::Threads)
 
 if(ENABLE_CUDA)
   target_include_directories(dark PUBLIC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-  target_link_libraries(dark PRIVATE curand cublas cuda)
+  target_link_libraries(dark curand cublas cuda)
   set_target_properties(dark PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS ON)
   target_compile_definitions(dark PUBLIC -DGPU)
 endif()
 
-set_target_properties(dark PROPERTIES PUBLIC_HEADER "${CMAKE_CURRENT_LIST_DIR}/include/darknet.h;${CMAKE_CURRENT_LIST_DIR}/include/yolo_v2_class.hpp")
-set_target_properties(dark PROPERTIES CXX_VISIBILITY_PRESET hidden)
+set_target_properties(dark PROPERTIES PUBLIC_HEADER "${CMAKE_CURRENT_LIST_DIR}/include/darknet.h")
 
 cs_install()
 cs_export(INCLUDE_DIRS include)

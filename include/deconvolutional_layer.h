@@ -7,11 +7,9 @@
 #include "layer.h"
 #include "network.h"
 
+namespace darknet {
 typedef layer deconvolutional_layer;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 #ifdef GPU
 void forward_deconvolutional_layer_gpu(deconvolutional_layer layer, network_state state);
 void backward_deconvolutional_layer_gpu(deconvolutional_layer layer, network_state state);
@@ -32,9 +30,6 @@ image get_deconvolutional_filter(deconvolutional_layer layer, int i);
 
 int deconvolutional_out_height(deconvolutional_layer layer);
 int deconvolutional_out_width(deconvolutional_layer layer);
-
-#ifdef __cplusplus
-}
-#endif
+} // namespace darknet
 
 #endif

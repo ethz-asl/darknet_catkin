@@ -8,9 +8,7 @@
 #include "tree.h"
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace darknet {
 void flatten(float *x, int size, int layers, int batch, int forward);
 void pm(int M, int N, float *A);
 float *random_matrix(int rows, int cols);
@@ -130,7 +128,6 @@ void backward_sam_gpu(float *in_w_h_c_delta, int size, int channel_size,
 void sam_gpu(float *in_w_h_c, int size, int channel_size, float *scales_c, float *out);
 
 #endif
-#ifdef __cplusplus
-}
-#endif
+} // namespace darknet
+
 #endif

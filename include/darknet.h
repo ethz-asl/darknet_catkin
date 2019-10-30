@@ -16,22 +16,6 @@
 #include <assert.h>
 #include <pthread.h>
 
-#ifndef LIB_API
-#ifdef LIB_EXPORTS
-#if defined(_MSC_VER)
-#define LIB_API __declspec(dllexport)
-#else
-#define LIB_API __attribute__((visibility("default")))
-#endif
-#else
-#if defined(_MSC_VER)
-#define LIB_API
-#else
-#define LIB_API
-#endif
-#endif
-#endif
-
 #define SECRET_NUM -1234
 
 #ifdef GPU
@@ -45,10 +29,7 @@
 #endif
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+namespace darknet {
 struct network;
 typedef struct network network;
 
@@ -819,86 +800,84 @@ typedef struct box_label {
 
 
 // parser.c
-LIB_API network *load_network(char *cfg, char *weights, int clear);
-LIB_API network *load_network_custom(char *cfg, char *weights, int clear, int batch);
-LIB_API network *load_network(char *cfg, char *weights, int clear);
+network *load_network(char *cfg, char *weights, int clear);
+network *load_network_custom(char *cfg, char *weights, int clear, int batch);
+network *load_network(char *cfg, char *weights, int clear);
 
 // network.c
-LIB_API load_args get_base_args(network *net);
+load_args get_base_args(network *net);
 
 // box.h
-LIB_API void do_nms_sort(detection *dets, int total, int classes, float thresh);
-LIB_API void do_nms_obj(detection *dets, int total, int classes, float thresh);
+void do_nms_sort(detection *dets, int total, int classes, float thresh);
+void do_nms_obj(detection *dets, int total, int classes, float thresh);
 
 // network.h
-LIB_API float *network_predict(network net, float *input);
-LIB_API float *network_predict_ptr(network *net, float *input);
-LIB_API detection *get_network_boxes(network *net, int w, int h, float thresh, float hier, int *map, int relative, int *num, int letter);
-LIB_API void free_detections(detection *dets, int n);
-LIB_API void fuse_conv_batchnorm(network net);
-LIB_API void calculate_binary_weights(network net);
-LIB_API char *detection_to_json(detection *dets, int nboxes, int classes, char **names, long long int frame_id, char *filename);
+float *network_predict(network net, float *input);
+float *network_predict_ptr(network *net, float *input);
+detection *get_network_boxes(network *net, int w, int h, float thresh, float hier, int *map, int relative, int *num, int letter);
+void free_detections(detection *dets, int n);
+void fuse_conv_batchnorm(network net);
+void calculate_binary_weights(network net);
+char *detection_to_json(detection *dets, int nboxes, int classes, char **names, long long int frame_id, char *filename);
 
-LIB_API layer* get_network_layer(network* net, int i);
-//LIB_API detection *get_network_boxes(network *net, int w, int h, float thresh, float hier, int *map, int relative, int *num, int letter);
-LIB_API detection *make_network_boxes(network *net, float thresh, int *num);
-LIB_API void reset_rnn(network *net);
-LIB_API float *network_predict_image(network *net, image im);
-LIB_API float *network_predict_image_letterbox(network *net, image im);
-LIB_API float validate_detector_map(char *datacfg, char *cfgfile, char *weightfile, float thresh_calc_avg_iou, const float iou_thresh, const int map_points, int letter_box, network *existing_net);
-LIB_API void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, int ngpus, int clear, int dont_show, int calc_map, int mjpeg_port, int show_imgs);
-LIB_API void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filename, float thresh,
+layer* get_network_layer(network* net, int i);
+//detection *get_network_boxes(network *net, int w, int h, float thresh, float hier, int *map, int relative, int *num, int letter);
+detection *make_network_boxes(network *net, float thresh, int *num);
+void reset_rnn(network *net);
+float *network_predict_image(network *net, image im);
+float *network_predict_image_letterbox(network *net, image im);
+float validate_detector_map(char *datacfg, char *cfgfile, char *weightfile, float thresh_calc_avg_iou, const float iou_thresh, const int map_points, int letter_box, network *existing_net);
+void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, int ngpus, int clear, int dont_show, int calc_map, int mjpeg_port, int show_imgs);
+void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filename, float thresh,
     float hier_thresh, int dont_show, int ext_output, int save_labels, char *outfile, int letter_box);
-LIB_API int network_width(network *net);
-LIB_API int network_height(network *net);
-LIB_API void optimize_picture(network *net, image orig, int max_layer, float scale, float rate, float thresh, int norm);
+int network_width(network *net);
+int network_height(network *net);
+void optimize_picture(network *net, image orig, int max_layer, float scale, float rate, float thresh, int norm);
 
 // image.h
-LIB_API image resize_image(image im, int w, int h);
-LIB_API void copy_image_from_bytes(image im, char *pdata);
-LIB_API image letterbox_image(image im, int w, int h);
-LIB_API void rgbgr_image(image im);
-LIB_API image make_image(int w, int h, int c);
-LIB_API image load_image_color(char *filename, int w, int h);
-LIB_API void free_image(image m);
+image resize_image(image im, int w, int h);
+void copy_image_from_bytes(image im, char *pdata);
+image letterbox_image(image im, int w, int h);
+void rgbgr_image(image im);
+image make_image(int w, int h, int c);
+image load_image_color(char *filename, int w, int h);
+void free_image(image m);
 
 // layer.h
-LIB_API void free_layer(layer);
+void free_layer(layer);
 
 // data.c
-LIB_API void free_data(data d);
-LIB_API pthread_t load_data(load_args args);
-LIB_API pthread_t load_data_in_thread(load_args args);
+void free_data(data d);
+pthread_t load_data(load_args args);
+pthread_t load_data_in_thread(load_args args);
 
 // dark_cuda.h
-LIB_API void cuda_pull_array(float *x_gpu, float *x, size_t n);
-LIB_API void cuda_pull_array_async(float *x_gpu, float *x, size_t n);
-LIB_API void cuda_set_device(int n);
-LIB_API void *cuda_get_context();
+void cuda_pull_array(float *x_gpu, float *x, size_t n);
+void cuda_pull_array_async(float *x_gpu, float *x, size_t n);
+void cuda_set_device(int n);
+void *cuda_get_context();
 
 // utils.h
-LIB_API void free_ptrs(void **ptrs, int n);
-LIB_API void top_k(float *a, int n, int k, int *index);
+void free_ptrs(void **ptrs, int n);
+void top_k(float *a, int n, int k, int *index);
 
 // tree.h
-LIB_API tree *read_tree(char *filename);
+tree *read_tree(char *filename);
 
 // option_list.h
-LIB_API metadata get_metadata(char *file);
+metadata get_metadata(char *file);
 
 
 // http_stream.h
-LIB_API void delete_json_sender();
-LIB_API void send_json_custom(char const* send_buf, int port, int timeout);
-LIB_API double get_time_point();
+void delete_json_sender();
+void send_json_custom(char const* send_buf, int port, int timeout);
+double get_time_point();
 void start_timer();
 void stop_timer();
 double get_time();
 void stop_timer_and_show();
 void stop_timer_and_show_name(char *name);
 void show_total_time();
+} // namespace darknet
 
-#ifdef __cplusplus
-}
-#endif  // __cplusplus
 #endif  // DARKNET_API

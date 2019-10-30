@@ -11,7 +11,7 @@
 #include "utils.h"
 #include "dark_cuda.h"
 
-
+namespace darknet {
 __global__ void binarize_kernel(float *x, int n, float *binary)
 {
     int i = (blockIdx.x + blockIdx.y*gridDim.x) * blockDim.x + threadIdx.x;
@@ -1233,3 +1233,4 @@ void update_convolutional_layer_gpu(convolutional_layer layer, int batch, float 
     }
 }
 */
+} // namespace darknet

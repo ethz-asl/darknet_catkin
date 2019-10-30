@@ -1,9 +1,7 @@
 #ifndef COL2IM_H
 #define COL2IM_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace darknet {
 void col2im_cpu(float* data_col,
         int channels, int height, int width,
         int ksize, int stride, int pad, float* data_im);
@@ -27,7 +25,6 @@ void col2im_gpu_ext(const float* data_col, const int channels,
     const int stride_w, const int dilation_h, const int dilation_w,
     float* data_im);
 #endif
-#ifdef __cplusplus
-}
-#endif
+} // namespace darknet
+
 #endif

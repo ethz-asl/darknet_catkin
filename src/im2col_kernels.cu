@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-
+namespace darknet {
 template<typename T1, typename T2>
 __device__ inline T1 __shfl_custom(T1 val, T2 lane) {
 #if CUDART_VERSION >= 9000
@@ -2286,3 +2286,4 @@ void im2col_gpu_ext(const float* data_im, const int channels,
 
     CHECK_CUDA(cudaPeekAtLastError());
 }
+} // namespace darknet

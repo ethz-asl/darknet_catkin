@@ -6,6 +6,7 @@
 #include "dark_cuda.h"
 #include "utils.h"
 
+namespace darknet {
 __global__ void yoloswag420blazeit360noscope(float *input, int size, float *rand, float prob, float scale)
 {
     int id = (blockIdx.x + blockIdx.y*gridDim.x) * blockDim.x + threadIdx.x;
@@ -44,3 +45,4 @@ void backward_dropout_layer_gpu(dropout_layer layer, network_state state)
     yoloswag420blazeit360noscope<<<cuda_gridsize(size), BLOCK, 0, get_cuda_stream() >>>(state.delta, size, layer.rand_gpu, layer.probability, layer.scale);
     CHECK_CUDA(cudaPeekAtLastError());
 }
+} // namespace darknet

@@ -2,14 +2,7 @@
 #define DARKCUDA_H
 #include "darknet.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 extern int gpu_index;
-#ifdef __cplusplus
-}
-#endif // __cplusplus
 
 #ifdef GPU
 
@@ -49,9 +42,7 @@ extern int gpu_index;
 #define __FILE__
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+namespace darknet {
     void check_error(cudaError_t status);
     void check_error_extended(cudaError_t status, const char *file, int line, const char *date_time);
 #define CHECK_CUDA(X) check_error_extended(X, __FILE__ " : " __FUNCTION__, __LINE__,  __DATE__ " - " __TIME__ );
@@ -61,8 +52,8 @@ extern "C" {
     int *cuda_make_int_array(size_t n);
 	int *cuda_make_int_array_new_api(int *x, size_t n);
     void cuda_push_array(float *x_gpu, float *x, size_t n);
-    //LIB_API void cuda_pull_array(float *x_gpu, float *x, size_t n);
-    //LIB_API void cuda_set_device(int n);
+    //void cuda_pull_array(float *x_gpu, float *x, size_t n);
+    //void cuda_set_device(int n);
     int cuda_get_device();
     void cuda_free(float *x_gpu);
     void cuda_random(float *x_gpu, size_t n);
@@ -80,12 +71,10 @@ enum {cudnn_fastest, cudnn_smallest};
 void cudnn_check_error_extended(cudnnStatus_t status, const char *file, int line, const char *date_time);
 #define CHECK_CUDNN(X) cudnn_check_error_extended(X, __FILE__ " : " __FUNCTION__, __LINE__,  __DATE__ " - " __TIME__ );
 #endif
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+} // namespace darknet
 
 #else // GPU
-//LIB_API void cuda_set_device(int n);
+//void cuda_set_device(int n);
 #endif // GPU
+
 #endif // DARKCUDA_H

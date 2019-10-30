@@ -6,7 +6,7 @@
 #include "activations.h"
 #include "dark_cuda.h"
 
-
+namespace darknet {
 __device__ float lhtan_activate_kernel(float x)
 {
     if(x < 0) return .001*x;
@@ -311,7 +311,7 @@ __global__ void gradient_array_relu_kernel(float *x, int n, float *delta)
     }
 }
 
-extern "C" void activate_array_ongpu(float *x, int n, ACTIVATION a)
+void activate_array_ongpu(float *x, int n, ACTIVATION a)
 {
     const int num_blocks = get_number_of_blocks(n, BLOCK);
     if (a == LINEAR) return;
@@ -326,14 +326,14 @@ extern "C" void activate_array_ongpu(float *x, int n, ACTIVATION a)
     CHECK_CUDA(cudaPeekAtLastError());
 }
 
-extern "C" void activate_array_swish_ongpu(float *x, int n, float *output_sigmoid_gpu, float *output_gpu)
+void activate_array_swish_ongpu(float *x, int n, float *output_sigmoid_gpu, float *output_gpu)
 {
     const int num_blocks = get_number_of_blocks(n, BLOCK);
     activate_array_swish_kernel << <cuda_gridsize(n), BLOCK, 0, get_cuda_stream() >> >(x, n, output_sigmoid_gpu, output_gpu);
     CHECK_CUDA(cudaPeekAtLastError());
 }
 
-extern "C" void gradient_array_ongpu(float *x, int n, ACTIVATION a, float *delta)
+void gradient_array_ongpu(float *x, int n, ACTIVATION a, float *delta)
 {
     const int num_blocks = get_number_of_blocks(n, BLOCK);
     if (a == LINEAR) return;
@@ -349,9 +349,10 @@ extern "C" void gradient_array_ongpu(float *x, int n, ACTIVATION a, float *delta
 }
 
 
-extern "C" void gradient_array_swish_ongpu(float *x, int n, float *sigmoid_gpu, float *delta)
+void gradient_array_swish_ongpu(float *x, int n, float *sigmoid_gpu, float *delta)
 {
     const int num_blocks = get_number_of_blocks(n, BLOCK);
     gradient_array_swish_kernel << <cuda_gridsize(n), BLOCK, 0, get_cuda_stream() >> > (x, n, sigmoid_gpu, delta);
     CHECK_CUDA(cudaPeekAtLastError());
 }
+} // namespace darknet
