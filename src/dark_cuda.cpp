@@ -341,6 +341,7 @@ int get_gpu_compute_capability(int i)
 
 #include "darknet.h"
 namespace darknet {
+int gpu_index = 0;
 void cuda_set_device(int n) {}
 } // namespace darknet
 
